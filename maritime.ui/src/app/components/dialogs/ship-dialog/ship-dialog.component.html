@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>{{ data.isEditing ? 'Edit Ship' : 'Add New Ship' }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="shipForm">
+    <div class="form-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" required />
+        <mat-error *ngIf="shipForm.get('name')?.hasError('required')">Name is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Maximum Speed (knots)</mat-label>
+        <input matInput type="number" formControlName="maximumSpeed" required />
+        <mat-error *ngIf="shipForm.get('maximumSpeed')?.hasError('required')">Maximum Speed (knots) is required</mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="accent" (click)="submit()" [disabled]="shipForm.invalid">
+    {{ data.isEditing ? 'Update' : 'Save' }}
+  </button>
+</mat-dialog-actions>

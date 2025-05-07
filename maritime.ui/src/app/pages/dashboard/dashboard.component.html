@@ -1,0 +1,113 @@
+<div class="dashboard-container">
+
+  <!-- SHIP SPEED -->
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon color="primary">speed</mat-icon>
+        Ship Speed Distribution
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngIf="isLoadingShipSpeedChart; else shipSpeedChart">
+        <mat-progress-spinner diameter="40" mode="indeterminate" color="primary"></mat-progress-spinner>
+      </ng-container>
+      <ng-template #shipSpeedChart>
+        <ngx-charts-bar-vertical
+          *ngIf="shipSpeedData$ | async as data"
+          [results]="data"
+          [scheme]="shipSpeedColorScheme"
+          [xAxis]="true"
+          [yAxis]="true"
+          [xAxisLabel]="'Speed Range (knots)'"
+          [yAxisLabel]="'Number of Ships'"
+          [legend]="false"
+          (select)="onSelect($event)">
+        </ngx-charts-bar-vertical>
+        <div *ngIf="shipSpeedChartError" class="error-message">{{ shipSpeedChartError }}</div>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- PORTS BY COUNTRY -->
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon color="accent">map</mat-icon>
+        Ports by Country
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngIf="isLoadingPortsChart; else portsChart">
+        <mat-progress-spinner diameter="40" mode="indeterminate" color="accent"></mat-progress-spinner>
+      </ng-container>
+      <ng-template #portsChart>
+        <ngx-charts-pie-chart
+          *ngIf="portsByCountryData$ | async as data"
+          [results]="data"
+          [scheme]="portsColorScheme"
+          [legend]="true"
+          [labels]="true"
+          [doughnut]="false"
+          [legendTitle]="'Countries'"
+          (select)="onSelect($event)">
+        </ngx-charts-pie-chart>
+        <div *ngIf="portsChartError" class="error-message">{{ portsChartError }}</div>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- VOYAGES BY MONTH -->
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon color="warn">calendar_today</mat-icon>
+        Voyages by Month
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngIf="isLoadingVoyagesChart; else voyagesChart">
+        <mat-progress-spinner diameter="40" mode="indeterminate" color="warn"></mat-progress-spinner>
+      </ng-container>
+      <ng-template #voyagesChart>
+        <ngx-charts-bar-vertical
+          *ngIf="voyagesByMonthData$ | async as data"
+          [results]="data"
+          [scheme]="voyagesColorScheme"
+          [xAxis]="true"
+          [yAxis]="true"
+          [xAxisLabel]="'Month (YYYY-MM)'"
+          [yAxisLabel]="'Number of Voyages Started'"
+          [legend]="false"
+          (select)="onSelect($event)">
+        </ngx-charts-bar-vertical>
+        <div *ngIf="voyagesChartError" class="error-message">{{ voyagesChartError }}</div>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- VISITED COUNTRIES -->
+  <mat-card class="dashboard-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon color="primary">flag</mat-icon>
+        Countries Visited Last Year
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngIf="isLoadingCountries; else countryList">
+        <mat-progress-spinner diameter="40" mode="indeterminate" color="primary"></mat-progress-spinner>
+      </ng-container>
+      <ng-template #countryList>
+        <mat-list *ngIf="visitedCountries$ | async as countries">
+          <mat-list-item *ngFor="let country of countries">
+            <mat-icon matListIcon color="accent">public</mat-icon>
+            <span matLine>{{ country.name }}</span>
+          </mat-list-item>
+        </mat-list>
+        <div *ngIf="countriesError" class="error-message">{{ countriesError }}</div>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+
+</div>

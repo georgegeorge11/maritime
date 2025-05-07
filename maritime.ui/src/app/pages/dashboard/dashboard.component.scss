@@ -1,0 +1,14 @@
+.dashboard-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto auto;
+  gap: 32px;
+  padding: 36px;
+  background: #f8fafc;
+  max-width: 80vw;
+  max-height: 80vh;
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+}

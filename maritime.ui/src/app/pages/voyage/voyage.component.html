@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="header">
+    <h2>Voyages</h2>
+    <button mat-raised-button color="primary" (click)="addVoyage()">Add New Voyage</button>
+  </div>
+  <div *ngIf="isLoading" class="loading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <p>Loading voyages...</p>
+  </div>
+  <mat-card *ngIf="error" class="error-card">{{ error }}</mat-card>
+
+  <mat-card class="full-width-table" *ngIf="(voyages$ | async) as voyages">
+    <table mat-table [dataSource]="voyages" class="mat-elevation-z1">
+      <ng-container matColumnDef="ship">
+        <th mat-header-cell *matHeaderCellDef>Ship</th>
+        <td mat-cell *matCellDef="let voyage">{{ voyage.ship.name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="voyageDate">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let voyage">{{ voyage.voyageDate | date:'yyyy-MM-dd' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="departurePort">
+        <th mat-header-cell *matHeaderCellDef>Departure Port</th>
+        <td mat-cell *matCellDef="let voyage">{{ voyage.departurePort?.name ?? voyage.departurePortPK }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="arrivalPort">
+        <th mat-header-cell *matHeaderCellDef>Arrival Port</th>
+        <td mat-cell *matCellDef="let voyage">{{ voyage.arrivalPort?.name ?? voyage.arrivalPortPK }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="voyageStart">
+        <th mat-header-cell *matHeaderCellDef>Start</th>
+        <td mat-cell *matCellDef="let voyage">{{ voyage.voyageStartDate | date:'yyyy-MM-dd HH:mm' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="voyageEnd">
+        <th mat-header-cell *matHeaderCellDef>End</th>
+        <td mat-cell *matCellDef="let voyage">{{ voyage.voyageEndDate | date:'yyyy-MM-dd HH:mm' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="text-right">Actions</th>
+        <td mat-cell *matCellDef="let voyage" class="text-right">
+          <button mat-icon-button color="primary" (click)="updateVoyage(voyage)" matTooltip="Edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteVoyage(voyage)" matTooltip="Delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div *ngIf="voyages.length === 0 && !isLoading" class="no-data">
+      No voyages found.
+    </div>
+  </mat-card>
+</div>

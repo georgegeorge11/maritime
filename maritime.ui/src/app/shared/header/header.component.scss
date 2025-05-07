@@ -1,0 +1,66 @@
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidenav-container {
+  height: 100%;
+  background-color: #f4f6f8;
+}
+
+.main-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #1976d2;
+  color: white;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .app-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 12px;
+  }
+  .mat-icon {
+    margin-right: 12px;
+    color: #ffffff;
+  }
+}
+
+.sidenav {
+  width: 180px;
+  background-color: #ffffff;
+  border-right: 1px solid #e0e0e0;
+  padding-top: 16px;
+
+  .mat-icon {
+    margin-right: 12px;
+    color: #1976d2;
+  }
+
+  .mat-list-item {
+    padding: 12px 20px;
+    font-weight: 500;
+    color: #333;
+
+    &.active {
+      background-color: #e3f2fd;
+      border-left: 4px solid #1976d2;
+    }
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+  }
+}
+
+mat-sidenav-content {
+  padding: 24px;
+  background-color: #fafafa;
+  height: 100%;
+  overflow-y: auto;
+}

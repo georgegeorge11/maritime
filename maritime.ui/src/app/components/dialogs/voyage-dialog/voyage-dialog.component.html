@@ -1,0 +1,80 @@
+
+<div class="voyage-dialog">
+  <div class="voyage-dialog-header">
+    ⛴ {{ data.isEditing ? 'Edit Voyage' : 'New Voyage' }}
+  </div>
+
+  <div class="voyage-dialog-content">
+    <form [formGroup]="voyageForm" (ngSubmit)="submit()">
+      <div class="form-grid">
+        <!-- Ship Selection -->
+        <div class="form-group">
+          <label>Ship</label>
+          <select formControlName="shipPK" required>
+            <option *ngIf="isLoading" disabled>Loading ships...</option>
+            <option *ngFor="let ship of ships" [value]="ship.shipPK">
+              {{ ship.name }} ({{ ship.maximumSpeed }} knots)
+            </option>
+          </select>
+          <div *ngIf="shipPK?.invalid" class="error">Required</div>
+        </div>
+
+        <!-- Date and Ports -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" formControlName="voyageDate" required>
+            <div *ngIf="voyageDate?.invalid" class="error">Required</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>From</label>
+            <select formControlName="departurePortPK" required>
+              <option *ngIf="isLoading" disabled>Loading...</option>
+              <option *ngFor="let port of ports" [value]="port.portPK">
+                {{ port.name }}
+              </option>
+            </select>
+            <div *ngIf="departurePortPK?.invalid" class="error">Required</div>
+          </div>
+
+          <div class="form-group">
+            <label>To</label>
+            <select formControlName="arrivalPortPK" required>
+              <option *ngIf="isLoading" disabled>Loading...</option>
+              <option *ngFor="let port of ports" [value]="port.portPK">
+                {{ port.name }}
+              </option>
+            </select>
+            <div *ngIf="arrivalPortPK?.invalid" class="error">Required</div>
+            <div *ngIf="voyageForm.hasError('samePorts')" class="error">Must differ</div>
+          </div>
+        </div>
+
+        <!-- Times -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>Start</label>
+            <input type="datetime-local" formControlName="voyageStartDate" required>
+            <div *ngIf="voyageStartDate?.invalid" class="error">Required</div>
+          </div>
+
+          <div class="form-group">
+            <label>End</label>
+            <input type="datetime-local" formControlName="voyageEndDate" required>
+            <div *ngIf="voyageEndDate?.invalid" class="error">Required</div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="voyage-dialog-actions">
+    <button class="cancel" (click)="cancel()">Cancel</button>
+    <button class="submit" (click)="submit()" [disabled]="isSubmitting">
+      {{ data.isEditing ? 'Update' : 'Create' }}
+    </button>
+  </div>
+</div>

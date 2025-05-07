@@ -1,0 +1,39 @@
+<mat-toolbar class="main-toolbar">
+  <button mat-icon-button (click)="toggleSidenav()">
+    <mat-icon>{{ isSidebarOpen ? 'close' : 'menu' }}</mat-icon>
+  </button>
+  <span class="app-title">Maritime Management</span>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" [opened]="isSidebarOpen" class="sidenav">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+
+      </a>
+      <a mat-list-item routerLink="/voyages" routerLinkActive="active" class="nav-link">
+        <mat-icon>map</mat-icon>
+        <span>Voyages</span>
+      </a>
+      <a mat-list-item routerLink="/ships" routerLinkActive="active" class="nav-link">
+        <mat-icon>directions_boat</mat-icon>
+        <span>Ships</span>
+      </a>
+
+      <a mat-list-item routerLink="/ports" routerLinkActive="active" class="nav-link">
+        <mat-icon>location_on</mat-icon>
+        <span>Ports</span>
+      </a>
+      <a mat-list-item routerLink="/countries" routerLinkActive="active" class="nav-link">
+        <mat-icon>public</mat-icon>
+        <span>Countries</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
